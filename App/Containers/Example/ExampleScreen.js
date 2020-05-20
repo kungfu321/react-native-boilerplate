@@ -1,11 +1,12 @@
 import React from 'react'
-import { Platform, Text, View, Button, ActivityIndicator, Image } from 'react-native'
+import { Platform, Text, View, ActivityIndicator, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import ExampleActions from 'App/Stores/Example/Actions'
 import { liveInEurope } from 'App/Stores/Example/Selectors'
 import Style from './ExampleScreenStyle'
 import { ApplicationStyles, Helpers, Images, Metrics } from 'App/Theme'
+import { Button, Icon } from '@ui-kitten/components';
 
 /**
  * This is an example of a container component.
@@ -24,6 +25,10 @@ class ExampleScreen extends React.Component {
     this._fetchUser()
   }
 
+  facebookIcon = (props) => (
+    <Icon name='facebook' {...props} />
+  );
+
   render() {
     return (
       <View
@@ -37,32 +42,28 @@ class ExampleScreen extends React.Component {
         {this.props.userIsLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <View>
-            <View style={Style.logoContainer}>
-              <Image style={Helpers.fullSize} source={Images.logo} resizeMode={'contain'} />
-            </View>
-            <Text style={Style.text}>To get started, edit App.js</Text>
-            <Text style={Style.instructions}>{instructions}</Text>
-            {this.props.userErrorMessage ? (
-              <Text style={Style.error}>{this.props.userErrorMessage}</Text>
-            ) : (
-              <View>
-                <Text style={Style.result}>
-                  {"I'm a fake user, my name is "}
-                  {this.props.user.name}
-                </Text>
-                <Text style={Style.result}>
-                  {this.props.liveInEurope ? 'I live in Europe !' : "I don't live in Europe."}
-                </Text>
+            <View>
+              <View style={Style.logoContainer}>
+                <Image style={Helpers.fullSize} source={Images.logo} resizeMode={'contain'} />
               </View>
-            )}
-            <Button
-              style={ApplicationStyles.button}
-              onPress={() => this._fetchUser()}
-              title="Refresh"
-            />
-          </View>
-        )}
+              <Text style={Style.text}>To get started, edit App.js</Text>
+              <Text style={Style.instructions}>{instructions}</Text>
+              {this.props.userErrorMessage ? (
+                <Text style={Style.error}>{this.props.userErrorMessage}</Text>
+              ) : (
+                  <View>
+                    <Text style={Style.result}>
+                      {"I'm a fake user, my name is "}
+                      {this.props.user.name}
+                    </Text>
+                    <Text style={Style.result}>
+                      {this.props.liveInEurope ? 'I live in Europe !' : "I don't live in Europe."}
+                    </Text>
+                  </View>
+                )}
+              <Button accessoryLeft={this.facebookIcon}>Login with Facebook</Button>
+            </View>
+          )}
       </View>
     )
   }

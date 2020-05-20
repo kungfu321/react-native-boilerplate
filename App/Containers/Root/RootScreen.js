@@ -1,11 +1,14 @@
 import * as React from 'react'
 import { navigationRef, isMountedRef } from 'App/Services/NavigationService'
 import AppNavigator from 'App/Navigators/AppNavigator'
-import { View } from 'react-native'
 import { connect } from 'react-redux'
 import StartupActions from 'App/Stores/Startup/Actions'
 import { PropTypes } from 'prop-types'
 import { Helpers } from 'App/Theme'
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, Layout, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -17,13 +20,18 @@ function RootScreen() {
   }, [])
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <View style={Helpers.fill}>
-        <AppNavigator
-        // Initialize the NavigationService (see https://reactnavigation.org/docs/en/navigating-without-navigation-prop.html)
-        />
-      </View>
-    </NavigationContainer>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <NavigationContainer ref={navigationRef}>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <SafeAreaProvider>
+            <Layout style={Helpers.fill}>
+              <AppNavigator isLoggedIn={true} />
+            </Layout>
+          </SafeAreaProvider>
+        </ApplicationProvider>
+      </NavigationContainer>
+    </>
   )
 }
 
